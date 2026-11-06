@@ -126,7 +126,7 @@ $ do OpenSearch
 
 ### ネイティブ版と同じテストを流す
 
-同じ天気アプリを Swift と Kotlin でも作っています（リポジトリは未公開）。その振る舞いテストは、このアプリにもそのまま流せます。`test/protocol.test.tsx` がハーネスの中で同じ NDJSON（`launch` / `ls` / `do` / `env`）を TCP で話すアダプターです。
+同じ天気アプリを Swift と Kotlin でも作っています（[reflex-native-app-demo](https://github.com/kazutoyo/reflex-native-app-demo)）。その振る舞いテストは、このアプリにもそのまま流せます。`test/protocol.test.tsx` がハーネスの中で同じ NDJSON（`launch` / `ls` / `do` / `env`）を TCP で話すアダプターです。
 
 ```bash
 REFLEX_PORT=8770 npx jest --no-watchman test/protocol.test.tsx   # 127.0.0.1:8770 で待ち受ける

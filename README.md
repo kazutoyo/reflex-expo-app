@@ -126,7 +126,7 @@ Each call boots the app again, so chain commands to keep going in one session.
 
 ### Running the same tests as the native version
 
-The same weather app also exists in Swift and Kotlin (not public yet), and its behavior tests run unchanged against this app. `test/protocol.test.tsx` is an adapter that speaks the same NDJSON protocol (`launch` / `ls` / `do` / `env`) over TCP from inside the harness.
+The same weather app also exists in Swift and Kotlin ([reflex-native-app-demo](https://github.com/kazutoyo/reflex-native-app-demo)), and its behavior tests run unchanged against this app. `test/protocol.test.tsx` is an adapter that speaks the same NDJSON protocol (`launch` / `ls` / `do` / `env`) over TCP from inside the harness.
 
 ```bash
 REFLEX_PORT=8770 npx jest --no-watchman test/protocol.test.tsx   # listens on 127.0.0.1:8770
