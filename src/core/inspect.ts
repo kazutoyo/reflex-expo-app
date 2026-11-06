@@ -2,7 +2,7 @@ import type { Screen } from './store';
 
 /** Equivalent of Reflex's Introspection Kit. Returns the same shape for the harness (CLI) and the dev build's __app. */
 export function describeScreen(screen: Screen<any, any>) {
-  return { name: screen.name, state: screen.getState(), actions: screen.actions };
+  return { name: screen.name, state: screen.getState(), actions: screen.actions, inputs: screen.inputs ?? {} };
 }
 
 /** send by action name and payload. Unknown actions throw. */

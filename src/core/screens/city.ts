@@ -67,9 +67,16 @@ export function createCityScreen(deps: Deps, params: { id: string }): Screen<Cit
           return load();
         case 'ToggleFavorite': {
           if (state.status !== 'loaded') return;
-          const others = (await deps.favorites.list()).filter((c) => c.id !== id);
-          await deps.favorites.save(state.favorite ? others : [...others, state.city]);
-          return store.dispatch({ type: 'FavoriteChanged', favorite: !state.favorite });
+          // Flip before awaiting so a rapid second tap sees the new value
+          const favorite = !state.favorite;
+          store.dispatch({ type: 'FavoriteChanged', favorite });
+          try {
+            await (favorite ? deps.favorites.add(state.city) : deps.favorites.remove(id));
+          } catch (e) {
+            store.dispatch({ type: 'FavoriteChanged', favorite: !favorite });
+            throw e;
+          }
+          return;
         }
         case 'Back':
           return deps.nav.back();

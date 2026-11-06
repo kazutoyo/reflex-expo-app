@@ -13,10 +13,11 @@ export type Location = {
   openSettings(): void;
 };
 
-/** Favorites stored on device (expo-sqlite/kv-store). */
+/** Favorites stored on device (expo-sqlite/kv-store). add/remove run in call order. */
 export type Favorites = {
   list(): Promise<City[]>;
-  save(cities: City[]): Promise<void>;
+  add(city: City): Promise<void>;
+  remove(id: number): Promise<void>;
 };
 
 /** Navigation. Production uses expo-router; the harness also renders the real expo-router, so both use the same implementation. */

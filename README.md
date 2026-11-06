@@ -119,6 +119,7 @@ $ do OpenSearch
   /search  Search
   state:   {"query":"","status":"idle","results":[],"favorites":[]}
   actions: Appear, ChangeQuery, Submit, Open
+  inputs:  {"ChangeQuery":{"query":"string"},"Open":{"id":"number"}}
 ```
 
 Each call boots the app again, so chain commands to keep going in one session.

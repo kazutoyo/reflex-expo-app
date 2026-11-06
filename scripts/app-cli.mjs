@@ -59,6 +59,7 @@ if (json) {
       console.log(`  ${r.path}  ${r.name}`);
       console.log(`  state:   ${JSON.stringify(r.state)}`);
       console.log(`  actions: ${r.actions.join(', ')}`);
+      if (Object.keys(r.inputs ?? {}).length) console.log(`  inputs:  ${JSON.stringify(r.inputs)}`);
     }
   }
 }

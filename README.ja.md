@@ -119,6 +119,7 @@ $ do OpenSearch
   /search  Search
   state:   {"query":"","status":"idle","results":[],"favorites":[]}
   actions: Appear, ChangeQuery, Submit, Open
+  inputs:  {"ChangeQuery":{"query":"string"},"Open":{"id":"number"}}
 ```
 
 1 回の呼び出しごとにアプリを起動し直すので、続けて操作するときはコマンドを並べます。

@@ -4,9 +4,23 @@ import Storage from 'expo-sqlite/kv-store';
 import { Linking } from 'react-native';
 
 import { createHttpApi } from '@/core/api';
+import type { City } from '@/core/api';
 import type { Deps, Nav } from '@/core/deps';
 
 const FAVORITES_KEY = 'favorites';
+
+const readFavorites = async (): Promise<City[]> =>
+  JSON.parse((await Storage.getItem(FAVORITES_KEY)) ?? '[]');
+
+// Serialize read-modify-write so overlapping add/remove don't overwrite each other
+let favoritesQueue: Promise<unknown> = Promise.resolve();
+function updateFavorites(change: (cities: City[]) => City[]) {
+  const next = favoritesQueue.then(async () =>
+    Storage.setItem(FAVORITES_KEY, JSON.stringify(change(await readFavorites())))
+  );
+  favoritesQueue = next.catch(() => {});
+  return next;
+}
 
 export const nav: Nav = {
   navigate: (href) => router.navigate(href as Href),
@@ -35,10 +49,9 @@ export const deps: Deps = {
     openSettings: () => void Linking.openSettings(),
   },
   favorites: {
-    async list() {
-      return JSON.parse((await Storage.getItem(FAVORITES_KEY)) ?? '[]');
-    },
-    save: (cities) => Storage.setItem(FAVORITES_KEY, JSON.stringify(cities)),
+    list: readFavorites,
+    add: (city) => updateFavorites((cities) => [...cities.filter((c) => c.id !== city.id), city]),
+    remove: (id) => updateFavorites((cities) => cities.filter((c) => c.id !== id)),
   },
   nav,
 };

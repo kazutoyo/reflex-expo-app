@@ -45,6 +45,8 @@ export function createSearchScreen(deps: Deps): Screen<SearchState, SearchAction
     update
   );
 
+  let latestSubmit = 0;
+
   return {
     name: 'Search',
     actions: ['Appear', 'ChangeQuery', 'Submit', 'Open'],
@@ -63,11 +65,13 @@ export function createSearchScreen(deps: Deps): Screen<SearchState, SearchAction
           const query = store.getState().query.trim();
           if (!query) return;
           store.dispatch({ type: 'Searching' });
-          // ponytail: with rapid Submits, a slow response can win last. If that bites, drop stale responses by request ID
+          // Only the latest Submit's result is applied; an older, slower response is dropped
+          const submit = ++latestSubmit;
           try {
-            store.dispatch({ type: 'Found', results: await deps.api.searchCities(query) });
+            const results = await deps.api.searchCities(query);
+            if (submit === latestSubmit) store.dispatch({ type: 'Found', results });
           } catch (e) {
-            store.dispatch({ type: 'Failed', message: errorMessage(e) });
+            if (submit === latestSubmit) store.dispatch({ type: 'Failed', message: errorMessage(e) });
           }
           return;
         }

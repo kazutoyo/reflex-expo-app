@@ -106,8 +106,11 @@ export function memoryFavorites(initial: City[] = []): Favorites & { items: City
     async list() {
       return fake.items;
     },
-    async save(cities: City[]) {
-      fake.items = cities;
+    async add(city: City) {
+      fake.items = [...fake.items.filter((c) => c.id !== city.id), city];
+    },
+    async remove(id: number) {
+      fake.items = fake.items.filter((c) => c.id !== id);
     },
   };
   return fake;
