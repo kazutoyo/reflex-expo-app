@@ -1,0 +1,85 @@
+## 01 実ネットワーク
+$ __app.scenario('default')  (2ms)
+  "default"
+$ __app.go('/')  (1ms)
+  "/"
+$ __app.do('Retry').then(s => s.state.status)  (885ms)
+  "loaded"
+📸 01-live.png
+## 02 雨
+$ __app.scenario('rainy')  (3ms)
+  "rainy"
+$ __app.do('Retry').then(s => s.state.forecast.current)  (81ms)
+  {"code":63,"temperature":23.5}
+📸 02-rainy.png
+## 03 雪
+$ __app.scenario('snowy')  (2ms)
+  "snowy"
+$ __app.do('Retry').then(s => s.state.forecast.current)  (71ms)
+  {"code":73,"temperature":23.5}
+📸 03-snowy.png
+## 04 雷雨
+$ __app.scenario('stormy')  (2ms)
+  "stormy"
+$ __app.do('Retry').then(s => s.state.forecast.current)  (46ms)
+  {"code":95,"temperature":23.5}
+📸 04-stormy.png
+## 05 オフライン
+$ __app.scenario('offline')  (2ms)
+  "offline"
+$ __app.do('Retry').then(s => s.state)  (31ms)
+  {"message":"ネットワークに接続できません","status":"error"}
+📸 05-offline.png
+## 06 読み込み中
+$ __app.scenario('loading')  (2ms)
+  "loading"
+$ (__app.do('Retry'), 'sent')  (1ms)
+  "sent"
+$ __app.ls().state  (6ms)
+  {"status":"loading"}
+📸 06-loading.png
+## 07 位置情報を拒否済み
+$ __app.scenario('location-denied')  (2ms)
+  "location-denied"
+$ __app.do('Retry').then(s => s.state)  (13ms)
+  {"canAskAgain":false,"status":"permissionDenied"}
+📸 07-location-denied.png
+## 08 検索して詳細を開く
+$ __app.scenario('fixtures')  (2ms)
+  "fixtures"
+$ __app.go('/search')  (1ms)
+  "/search"
+$ new Promise(r => setTimeout(r, 300)).then(() => __app.do('ChangeQuery', { query: 'Tokyo' })).then(s => s.state.query)  (327ms)
+  "Tokyo"
+$ __app.do('Submit').then(s => s.state.results.map(r => r.name + ' / ' + r.region))  (18ms)
+  ["東京都 / 東京都, 日本","Tokyo / 中央州, パプアニューギニア","Tokyo / カルナリ Pradesh, ネパール","東境山 / 新潟県, 日本","Tokyo Hill / テキサス州, アメリカ"]
+$ __app.do('Open', { id: 1850147 })  (217ms)
+  {"actions":["Appear","ChangeQuery","Submit","Open"],"name":"Search","path":"/search","state":{"favorites":[{"id":1850147,"latitude":35.6895,"longitude":139.69171,"name":"東京都","region":"東京都, 日本"}],"query":"Tokyo","results":[{"id":1850147,"latitude":35.6895,"longitude":139.69171,"name":"東京都","region
+$ new Promise(r => setTimeout(r, 300)).then(() => __app.ls()).then(s => [s.path, s.state.status, s.state.favorite])  (316ms)
+  ["/cities/1850147","loaded",true]
+📸 08-city.png
+## 09 お気に入りを切り替える
+$ __app.do('ToggleFavorite').then(s => s.state.favorite)  (25ms)
+  false
+📸 09-favorite-toggled.png
+## 10 お気に入りが多い
+$ __app.do('Back')  (129ms)
+  {"actions":["Appear","Retry","ToggleFavorite","Back"],"name":"City","path":"/cities/1850147","state":{"city":{"id":1850147,"latitude":35.6895,"longitude":139.69171,"name":"東京都","region":"東京都, 日本"},"favorite":false,"forecast":{"current":{"code":0,"temperature":23.5},"daily":[{"code":3,"date":"2026-
+$ __app.scenario('many-favorites')  (2ms)
+  "many-favorites"
+$ __app.go('/favorites')  (3ms)
+  "/favorites"
+$ new Promise(r => setTimeout(r, 300)).then(() => __app.do('Appear')).then(s => s.state.items.map(i => i.city.name))  (321ms)
+  ["東京都","Tokyo","Tokyo","東境山"]
+📸 10-many-favorites.png
+## 11 hydrate で長い地名と極端な気温
+$ __app.go('/')  (2ms)
+  "/"
+$ new Promise(r => setTimeout(r, 300)).then(() => { const s = __app.ls().state; return __app.hydrate({ ...s, place: 'ランフェアプルグウィンギルゴウゲリフウィルンドロブル', forecast: { ...s.forecast, current: { code: 0, temperature: -38.6 } } }).state.place })  (333ms)
+  "ランフェアプルグウィンギルゴウゲリフウィルンドロブル"
+📸 11-hydrate.png
+## 12 元に戻す
+$ __app.scenario('default')  (2ms)
+  "default"
+$ __app.do('Retry').then(s => s.state.status)  (362ms)
+  "loaded"

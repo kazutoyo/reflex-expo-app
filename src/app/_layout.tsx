@@ -1,17 +1,24 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import { DarkTheme, DefaultTheme, ThemeProvider, usePathname } from 'expo-router';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { focused } from '@/core/inspect';
+import AppTabs from '@/ui/app-tabs';
 
-SplashScreen.preventAutoHideAsync();
+// Expose __app only in dev builds (stripped from the production bundle)
+if (__DEV__) require('@/dev/devtools');
 
-export default function TabLayout() {
+// Without this, launching with no URL path selects the (search) tab (confirmed on a real iOS device; not reproducible in the harness)
+export const unstable_settings = { anchor: '(weather)' };
+
+export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const pathname = usePathname();
+  useEffect(() => {
+    focused.path = pathname;
+  }, [pathname]);
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
       <AppTabs />
     </ThemeProvider>
   );
