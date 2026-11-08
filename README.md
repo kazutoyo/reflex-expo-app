@@ -159,6 +159,20 @@ Scenarios (`src/dev/scenarios.ts`) are shared with app-cli.
 
 A scenario only swaps the injected dependencies, so state still goes through the real `update`. That means you can only reproduce screens that can actually happen.
 
+### Drive it from a React Native DevTools panel (Rozenite)
+
+The "Reflex" panel in React Native DevTools does what `__app` does, with buttons. The panel is a [Rozenite](https://www.rozenite.dev/) plugin (`plugins/reflex-devtools`).
+
+```bash
+EXPO_PUBLIC_WITH_ROZENITE=true pnpm start   # then press j to open DevTools
+```
+
+- The current screen's path, name, and state update as you move between screens
+- An action button sends `do`. For actions that take input, write the JSON first
+- Scenario buttons swap dependencies, `go` navigates, and `hydrate` sets the state directly
+
+After you change the panel, rebuild it with `pnpm --dir plugins/reflex-devtools build`. Run `npx rozenite dev` in `plugins/reflex-devtools` to open the panel without the app.
+
 ## Findings
 
 ### Speed

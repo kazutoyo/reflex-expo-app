@@ -1,0 +1,31 @@
+{
+  "name": "reflex-devtools",
+  "version": "0.0.1",
+  "description": "Rozenite panel that shows the current Reflex screen and sends actions, scenarios and state to the app",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist"],
+  "scripts": {
+    "build": "rozenite build",
+    "dev": "rozenite dev"
+  },
+  "dependencies": {
+    "@rozenite/plugin-bridge": "^2.5.0"
+  },
+  "devDependencies": {
+    "@rozenite/vite-plugin": "^2.5.0",
+    "@types/react": "~19.1.10",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-web": "^0.21.2",
+    "rozenite": "^2.5.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}

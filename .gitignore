@@ -6,6 +6,8 @@ node_modules/
 # Expo
 .expo/
 dist/
+# The Rozenite panel is loaded from its built files
+!plugins/reflex-devtools/dist/
 web-build/
 expo-env.d.ts
 

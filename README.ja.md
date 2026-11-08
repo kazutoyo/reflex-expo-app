@@ -159,6 +159,20 @@ __app.hydrate({ ... })            // 今の画面の state を直接入れる
 
 シナリオは注入する依存を差し替えるだけなので、state は正規の `update` を通って作られます。そのため、実際に起こりうる画面だけを再現できます。
 
+### React Native DevTools のパネルで操作する（Rozenite）
+
+`__app` と同じ操作を、React Native DevTools の「Reflex」パネルからボタンでできます。パネルは [Rozenite](https://www.rozenite.dev/) のプラグイン（`plugins/reflex-devtools`）です。
+
+```bash
+EXPO_PUBLIC_WITH_ROZENITE=true pnpm start   # 起動したら j で DevTools を開く
+```
+
+- 今の画面の path、name、state が、画面を移るたびに変わります
+- アクションのボタンを押すと `do` を送ります。入力が要るアクションは JSON を書いてから押します
+- シナリオのボタンで依存を差し替え、`go` で移動し、`hydrate` で state を直接入れられます
+
+パネルを直したら `pnpm --dir plugins/reflex-devtools build` でビルドし直します。`plugins/reflex-devtools` で `npx rozenite dev` を動かすと、アプリなしでパネルを開いて確かめられます。
+
 ## わかったこと
 
 ### 速さ

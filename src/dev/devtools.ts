@@ -20,7 +20,7 @@ const current = () => {
  *   __app.scenario('rainy')          swap deps for a scenario ('default' restores them)
  *   __app.hydrate({...})             set the current screen's state directly
  */
-const app = {
+export const app = {
   ls: () => ({ path: focused.path, ...describeScreen(current()) }),
   async do(type: string, payload: object = {}) {
     await sendByName(current(), type, payload);

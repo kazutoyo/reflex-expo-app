@@ -1,0 +1,1 @@
+{"name":"reflex-devtools","version":"0.0.1","description":"Rozenite panel that shows the current Reflex screen and sends actions, scenarios and state to the app","panels":[{"name":"Reflex","source":"/devtools/reflex-panel.html"}],"integrations":["react-native"]}

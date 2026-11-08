@@ -21,6 +21,9 @@
     "react-native-screens": "~4.30.1"
   },
   "devDependencies": {
+    "@rozenite/metro": "^2.5.0",
+    "@rozenite/plugin-bridge": "^2.5.0",
+    "@rozenite/testing": "^2.5.0",
     "@testing-library/react-native": "^14.1.0",
     "@types/jest": "30.0.0",
     "@types/node": "^26.6.6",
@@ -29,6 +32,7 @@
     "eslint-config-expo": "~58.0.4",
     "jest": "~30.5.2",
     "jest-expo": "~58.0.14",
+    "reflex-devtools": "link:./plugins/reflex-devtools",
     "typescript": "~6.0.3"
   },
   "scripts": {
