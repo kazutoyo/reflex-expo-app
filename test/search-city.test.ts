@@ -56,5 +56,5 @@ test('詳細でお気に入りにして戻ると、検索画面に反映され�
 
 test('知らない都市はフィクスチャがないのでエラー（ネットワークには出ない）', async () => {
   const app = await launch({ initialUrl: '/cities/999' });
-  expect(app.ls().state).toEqual({ status: 'error', message: expect.stringContaining('フィクスチャがない') });
+  expect(app.ls().state).toEqual({ status: 'error', message: expect.stringContaining('No fixture for') });
 });

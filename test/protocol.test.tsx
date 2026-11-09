@@ -72,7 +72,7 @@ function createSession() {
         if (req.action === 'SelectTab') {
           await app!.open({ weather: '/', search: '/search', favorites: '/favorites' }[req.input.tab as string]!);
         } else if (!actions().includes(req.action)) {
-          throw new Error(`${name} に ${req.action} はない: ${actions().join(', ')}`);
+          throw new Error(`${name} has no action ${req.action}. Actions: ${actions().join(', ')}`);
         } else {
           await app!.do(req.action, req.input);
         }

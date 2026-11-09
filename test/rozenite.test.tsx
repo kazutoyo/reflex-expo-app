@@ -12,7 +12,7 @@ jest.mock('@/dev/devtools', () => {
     current: 'default',
     ls: () => ({ path: '/', name: 'Weather', state: app.state, actions: ['Retry'], inputs: {} }),
     async do(type: string) {
-      if (type !== 'Retry') throw new Error(`Weather に ${type} はない: Retry`);
+      if (type !== 'Retry') throw new Error(`Weather has no action ${type}. Actions: Retry`);
       app.state = { ...app.state, count: (app.state.count as number) + 1 };
     },
     go: (href: string) => href,
@@ -43,7 +43,7 @@ test('パネルから今の画面を見て、アクションとシナリオと s
   const rpc = createRozeniteRpc<Methods>(client);
   expect(await rpc.method('scenarios').invoke()).toEqual(['default', 'rainy']);
   expect((await rpc.method('do').invoke({ type: 'Retry', payload: {} })).state).toEqual({ status: 'loaded', count: 1 });
-  await expect(rpc.method('do').invoke({ type: 'Open', payload: {} })).rejects.toThrow('Weather に Open はない');
+  await expect(rpc.method('do').invoke({ type: 'Open', payload: {} })).rejects.toThrow('Weather has no action Open');
   await rpc.method('scenario').invoke({ name: 'rainy' });
   expect(mockApp.current).toBe('rainy');
   expect((await rpc.method('hydrate').invoke({ state: { status: 'error' } })).state).toEqual({ status: 'error' });

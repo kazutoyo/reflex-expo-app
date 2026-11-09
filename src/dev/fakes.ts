@@ -46,7 +46,7 @@ export function createFixtureFetch({ weatherCode }: { weatherCode?: number } = {
       const hit = [city1850147, ...searchTokyo.results].find((c) => String(c.id) === params.id);
       if (hit) return ok(hit);
     }
-    return Promise.reject(new Error(`フィクスチャがない: ${url}`));
+    return Promise.reject(new Error(`No fixture for ${url}`));
   };
 }
 

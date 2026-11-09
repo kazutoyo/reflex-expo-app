@@ -8,11 +8,11 @@ export function describeScreen(screen: Screen<any, any>) {
 /** send by action name and payload. Unknown actions throw. */
 export async function sendByName(screen: Screen<any, any>, type: string, payload: object = {}) {
   if (!screen.actions.includes(type)) {
-    throw new Error(`${screen.name} に ${type} はない: ${screen.actions.join(', ')}`);
+    throw new Error(`${screen.name} has no action ${type}. Actions: ${screen.actions.join(', ')}`);
   }
   for (const [key, kind] of Object.entries(screen.inputs?.[type] ?? {})) {
     if (typeof (payload as Record<string, unknown>)[key] !== kind) {
-      throw new Error(`${type} の入力が正しくない: ${JSON.stringify(payload)}`);
+      throw new Error(`Invalid input for ${type}: ${JSON.stringify(payload)}`);
     }
   }
   await screen.send({ type, ...payload });
