@@ -163,6 +163,10 @@ A scenario only swaps the injected dependencies, so state still goes through the
 
 The "Reflex" panel in React Native DevTools does what `__app` does, with buttons. The panel is a [Rozenite](https://www.rozenite.dev/) plugin (`plugins/reflex-devtools`).
 
+![The Reflex panel next to the simulator](docs/cdp-demo/rozenite.gif)
+
+Left: the simulator. Right: the Reflex panel. The red circles show where the panel was tapped: `stormy` → `Retry`, `snowy` → `Retry`, `/favorites`, then `/`.
+
 ```bash
 EXPO_PUBLIC_WITH_ROZENITE=true pnpm start   # then press j to open DevTools
 ```

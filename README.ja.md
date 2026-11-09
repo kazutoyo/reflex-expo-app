@@ -163,6 +163,10 @@ __app.hydrate({ ... })            // 今の画面の state を直接入れる
 
 `__app` と同じ操作を、React Native DevTools の「Reflex」パネルからボタンでできます。パネルは [Rozenite](https://www.rozenite.dev/) のプラグイン（`plugins/reflex-devtools`）です。
 
+![シミュレーターと Reflex パネル](docs/cdp-demo/rozenite.gif)
+
+左がシミュレーター、右が Reflex パネルです。赤い円はパネルでタップした位置です（`stormy` → `Retry`、`snowy` → `Retry`、`/favorites`、`/` の順）。
+
 ```bash
 EXPO_PUBLIC_WITH_ROZENITE=true pnpm start   # 起動したら j で DevTools を開く
 ```
